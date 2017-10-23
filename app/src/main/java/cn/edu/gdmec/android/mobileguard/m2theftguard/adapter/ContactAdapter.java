@@ -40,6 +40,7 @@ public class ContactAdapter extends BaseAdapter{
         ViewHolder holder = null;
         if (view == null) {
             view = View.inflate(context, R.layout.item_list_contact_select, null);
+            holder = new ViewHolder();
             holder.mNameTv = (TextView) view.findViewById(R.id.tv_name);
             holder.mPhoneTv = (TextView) view.findViewById(R.id.tv_phone);
             view.setTag(holder);
