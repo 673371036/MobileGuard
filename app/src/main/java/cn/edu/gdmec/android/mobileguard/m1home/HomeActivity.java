@@ -1,5 +1,7 @@
 package cn.edu.gdmec.android.mobileguard.m1home;
 
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,12 +18,15 @@ import cn.edu.gdmec.android.mobileguard.m1home.adapter.HomeAdapter;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.LostFindActivity;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.dialog.InterPasswordDialog;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.dialog.SetUpPasswrodDialog;
+import cn.edu.gdmec.android.mobileguard.m2theftguard.receiver.MyDeviceAdminReceiver;
 import cn.edu.gdmec.android.mobileguard.m2theftguard.utils.MD5Utils;
 
 public class HomeActivity extends AppCompatActivity {
     private GridView gv_home;
     private long mExiTime;
     private SharedPreferences msharedPreferences;
+    private DevicePolicyManager policyManager;
+    private ComponentName componentName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,21 @@ public class HomeActivity extends AppCompatActivity {
                         }
                 }
             }
-        });   System.out.println("是事实");
+        });
+
+        //1获取设备管理员
+        policyManager = (DevicePolicyManager)getSystemService(DEVICE_POLICY_SERVICE);
+        //2申请权限，MyDeviceAdminReceiver继承自DeviceAdminReceiver
+        componentName = new ComponentName(this, MyDeviceAdminReceiver.class);
+        //3判断，如果没有权限则申请权限
+        boolean active = policyManager.isAdminActive(componentName);
+        if (!active){
+            //没有管理权限，获取管理员权限
+            Intent intent = new Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN);
+            intent.putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN,componentName);
+            intent.putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION,"获取超级管理员权限，用于远程锁屏和清楚数据");
+            startActivity(intent);
+        }
     }
 
     @Override
