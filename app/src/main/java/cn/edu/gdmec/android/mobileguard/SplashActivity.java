@@ -20,11 +20,12 @@ public class SplashActivity extends AppCompatActivity {
         mTextView.setText("版本号:"+mVersion);
         final VersionUpdateUtils versionUpdateUtils=new VersionUpdateUtils(mVersion,SplashActivity.this);
 
-       /* new Thread() {
-            public void run() {
+        new Thread(){
+            @Override
+            public void run(){
                 super.run();
                 versionUpdateUtils.getCloudVersion();
             }
-        }.start();*/
+        }.start();
     }
 }
