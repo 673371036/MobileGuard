@@ -32,6 +32,7 @@ package cn.edu.gdmec.android.mobileguard.m3communicationguard.adapter;
         class ViewHolder{
             TextView mNameTV;
             TextView mModeTV;
+            TextView mTypeTV;
             View mContactImgv;
             View mDeleteView;
 
@@ -74,6 +75,7 @@ package cn.edu.gdmec.android.mobileguard.m3communicationguard.adapter;
             holder=new ViewHolder();
             holder.mNameTV=(TextView) view.findViewById(R.id.tv_black_name);
             holder.mModeTV=(TextView) view.findViewById(R.id.tv_black_mode);
+            holder.mTypeTV=(TextView) view.findViewById(R.id.tv_black_type);
             holder.mContactImgv=view.findViewById(R.id.view_black_icon);
             holder.mDeleteView=view.findViewById(R.id.view_black_delete);
             view.setTag(holder);
@@ -82,6 +84,7 @@ package cn.edu.gdmec.android.mobileguard.m3communicationguard.adapter;
         }
         holder.mNameTV.setText(contactInfos.get(i).contactName+"("+contactInfos.get(i).phoneNumber+")");
         holder.mModeTV.setText(contactInfos.get(i).getModeString(contactInfos.get(i).mode));
+        holder.mTypeTV.setText(contactInfos.get(i).blackType);
         holder.mNameTV.setTextColor(context.getResources().getColor(R.color.bright_purple));
         holder.mModeTV.setTextColor(context.getResources().getColor(R.color.bright_purple));
         holder.mContactImgv.setBackgroundResource(R.drawable.brightpurple_contact_icon);
