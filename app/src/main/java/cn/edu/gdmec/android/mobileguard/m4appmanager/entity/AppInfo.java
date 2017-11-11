@@ -14,7 +14,7 @@ public class AppInfo {
     //应用程序名称
     public String appName;
     //应用程序路径
-    public String appPath;
+    public String apkPath;
     //应用程序大大小
     public long appSize;
     //是否是手机存储
@@ -23,9 +23,12 @@ public class AppInfo {
     public boolean isUserApp;
     //是否选中，默认都为FALSE
     public boolean isSelected = false;
-
+    public String version;
+    public String InstallTime;
+    public String signature;
+    public String permissions;
     //拿到APP位置字符串
-    public String getAppLoaction(boolean isInRoom) {
+    public String getAppLocation(boolean isInRoom) {
         if (isInRoom) {
             return "手机内存";
         }else {
