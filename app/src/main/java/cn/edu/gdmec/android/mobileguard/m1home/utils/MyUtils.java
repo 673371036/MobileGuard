@@ -10,7 +10,7 @@ public class MyUtils {
     /*
     静态方法 获取当前版本号
      */
-    public static String getVersion(Context context){
+    public static String getVersion(Context context,String apkFile){
         PackageManager packageManager=context.getPackageManager();
         try {
             PackageInfo packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);

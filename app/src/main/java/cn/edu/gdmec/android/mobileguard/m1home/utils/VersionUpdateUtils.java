@@ -2,6 +2,10 @@ package cn.edu.gdmec.android.mobileguard.m1home.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.app.DownloadManager;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -35,6 +39,9 @@ public class VersionUpdateUtils {
     private String mVersion;
     private Activity context;
     private VersionEntity versionEntity;
+    private BroadcastReceiver broadcastReceiver;
+    private DownloadCallback downloadCallback;
+    private Class<?> nextActivity;
 
     private static final int MESSAGE_IO_ERROR = 102;//常量 io异常信息
     private static final int MESSAGE_JSON_ERROR = 103;//常量 JSON解析异常
@@ -57,9 +64,14 @@ public class VersionUpdateUtils {
                      showUpdateDialog(versionEntity);
                     break;
                 case MESSAGE_ENTERHOME:
-                    Intent intent=new Intent(context, HomeActivity.class);
-                    context.startActivity(intent);
-                    context.finish();
+                    //Intent intent = new Intent(context, nextActivity);
+                    //context.startActivity(intent);
+                    //context.finish();
+                    if(nextActivity!=null) {
+                        Intent intent = new Intent(context, nextActivity);
+                        context.startActivity(intent);
+                        context.finish();
+                    }
                     break;
             }
 
@@ -67,9 +79,11 @@ public class VersionUpdateUtils {
     };
 
 
-    public VersionUpdateUtils(String mVersion, Activity context){
+    public VersionUpdateUtils(String mVersion,Activity context, DownloadCallback downloadCallback,Class<?> nextActivity){
         this.mVersion=mVersion;
         this.context=context;
+        this.nextActivity = nextActivity;
+        this.downloadCallback = downloadCallback;
 
     }
 
@@ -155,6 +169,21 @@ public class VersionUpdateUtils {
         DownloadUtils downloadUtils=new DownloadUtils();
         downloadUtils.downloadApk(apkUrl,"moblieguard.apk",context);//下载方法
     }
-
+    private void listener(final long Id,final String filename) {
+        IntentFilter intentFilter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        broadcastReceiver = new BroadcastReceiver() {
+            @Override
+          public void onReceive(Context context, Intent intent) {
+              long ID = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+              if (ID == Id) {
+                  Toast.makeText(context.getApplicationContext(), "下载编号:" + Id +"的"+filename+" 下载完成!", Toast.LENGTH_LONG).show();
+              }
+              context.unregisterReceiver(broadcastReceiver);
+              downloadCallback.afterDownload(filename);
+          }
+      };
+        context.registerReceiver(broadcastReceiver, intentFilter);
+    }
+    public interface DownloadCallback{void afterDownload(String filename);}
 
 }
