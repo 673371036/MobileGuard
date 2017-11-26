@@ -3,6 +3,8 @@ package cn.edu.gdmec.android.mobileguard;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Build;
+import android.os.StrictMode;
 import android.telephony.SmsManager;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -15,6 +17,11 @@ import android.util.Log;
 public class App extends Application {
     public void onCreate(){
         super.onCreate();
+        correctSIM();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
+            StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+            StrictMode.setVmPolicy(builder.build());
+        }
         correctSIM();
     }
     public void correctSIM() {
