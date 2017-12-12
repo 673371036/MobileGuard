@@ -61,6 +61,7 @@ public class TrafficDao {
         ContentValues values=new ContentValues();
         values.put("gprs",String.valueOf(gprs));
         values.put("date","datetime("+dataString+")");
+        db.update("traffic",values,"date=?",new String[] { "datetime("+dataString+")" });
         
     }
 }
