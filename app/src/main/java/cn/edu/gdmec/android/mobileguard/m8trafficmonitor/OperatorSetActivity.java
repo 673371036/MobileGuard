@@ -5,4 +5,5 @@ package cn.edu.gdmec.android.mobileguard.m8trafficmonitor;
  */
 
 public class OperatorSetActivity {
+
 }
