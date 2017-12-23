@@ -12,67 +12,55 @@ import android.widget.TextView;
 import cn.edu.gdmec.android.mobileguard.R;
 
 
-
-public class SetUpPasswrodDialog extends Dialog implements View.OnClickListener {
-
+public class SetupPasswordDialog extends Dialog implements View.OnClickListener {
     private TextView mTitleTV;
     public EditText mFirstPWDET;
     public EditText mAffirmET;
     private MyCallBack myCallBack;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         setContentView(R.layout.setup_password_dialog);
         super.onCreate(savedInstanceState);
         initView();
     }
 
-
-
-    public SetUpPasswrodDialog(@NonNull Context context){
+    public SetupPasswordDialog(@NonNull Context context) {
         super(context, R.style.dialog_custom);
-
-
     }
-
-    /*
-    初始化方法
-     */
-    public void initView(){
-        mTitleTV=(TextView)findViewById(R.id.tv_setuppwd_title);
-        mFirstPWDET=(EditText)findViewById(R.id.et_firstpwd);
-        mAffirmET=(EditText)findViewById(R.id.et_affirm_password);
+    private void initView(){
+        mTitleTV = (TextView) findViewById(R.id.tv_setuppwd_title);
+        mFirstPWDET = (EditText) findViewById(R.id.et_firstpwd);
+        mAffirmET = (EditText) findViewById(R.id.et_affirm_password);
         findViewById(R.id.btn_ok).setOnClickListener(this);
         findViewById(R.id.btn_cancel).setOnClickListener(this);
     }
 
-    /*
-    设置对话框标题
-     */
-    public void setTitle(String Title){
-        if(!TextUtils.isEmpty(Title)){
-            mTitleTV.setText(Title);
+    public void setTitle(String title){
+        if(!TextUtils.isEmpty(title)){
+            mTitleTV.setText(title);
         }
     }
-
-    public void setMyCallBack(MyCallBack myCallBack){
-        this.myCallBack=myCallBack;
+    public void setCallBack(MyCallBack myCallBack){
+        this.myCallBack = myCallBack;
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch(v.getId()){
             case R.id.btn_ok:
+                System.out.print("SetupPasswordDialog");
                 myCallBack.ok();
                 break;
             case R.id.btn_cancel:
                 myCallBack.cancel();
                 break;
         }
-    }
 
+    }
     public interface MyCallBack{
         void ok();
         void cancel();
+
     }
 }

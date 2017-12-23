@@ -24,7 +24,7 @@ public class MyUtils {
 
     }
     //下载安装
-   /* public static void installApk(Activity activity, String apkFile){
+    public static void installApk(Activity activity, String apkFile){
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.setDataAndType(Uri.fromFile(
@@ -32,5 +32,4 @@ public class MyUtils {
         activity.startActivityForResult(intent,0);
     }
 
-}*/
 }

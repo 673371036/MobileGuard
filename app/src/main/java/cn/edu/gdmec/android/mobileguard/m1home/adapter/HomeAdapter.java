@@ -43,10 +43,6 @@ public class HomeAdapter extends BaseAdapter {
         TextView tv_name= (TextView) view1.findViewById(R.id.tv_name);
         iv_icon.setImageResource(imageId[i]);
         tv_name.setText(names[i]);
-
-
-
-
         return view1;
     }
 }

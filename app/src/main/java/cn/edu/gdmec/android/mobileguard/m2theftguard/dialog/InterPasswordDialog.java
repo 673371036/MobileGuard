@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,19 +14,20 @@ import cn.edu.gdmec.android.mobileguard.R;
 
 
 
-public class InterPasswordDialog extends Dialog implements View.OnClickListener{
+public class InterPasswordDialog extends Dialog implements View.OnClickListener {
 
     private TextView mTitleTV;
     private EditText mInterET;
     private Button mOkBtn;
     private Button mCancleBtn;
-    private  MyCallBack myCallBack;
+    private MyCallBack myCallBack;
     private Context context;
 
-    public InterPasswordDialog (@NonNull Context context){
+    public InterPasswordDialog(@NonNull Context context) {
         super(context, R.style.dialog_custom);
-        this.context=context;
+        this.context = context;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.inter_password_dialog);
@@ -37,47 +39,54 @@ public class InterPasswordDialog extends Dialog implements View.OnClickListener{
     /*
     初始化View
      */
-    private void initView(){
-        mTitleTV=(TextView) findViewById(R.id.tv_interpwd_title);
-        mOkBtn=(Button)findViewById(R.id.btn_comfirm);
-        mCancleBtn=(Button)findViewById(R.id.btn_dismiss);
-        mInterET=(EditText)findViewById(R.id.et_inter_password);
-        mOkBtn.setOnClickListener(this);
-        mCancleBtn.setOnClickListener(this);
+    private void initView() {
+        mTitleTV = (TextView) findViewById(R.id.tv_interpwd_title);
+        mInterET = (EditText) findViewById(R.id.et_inter_password);
+        findViewById(R.id.btn_confirm).setOnClickListener(this);
+        findViewById(R.id.btn_dismiss).setOnClickListener(this);
+    }
+
+    public void setTitle(String title) {
+        if (!TextUtils.isEmpty(title)) {
+            mTitleTV.setText(title);
+        }
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btn_comfirm:
-                myCallBack.ok();
+        switch (v.getId()) {
+            case R.id.btn_confirm:
+                myCallBack.confirm();
                 break;
             case R.id.btn_dismiss:
-                myCallBack.cancel();
+                myCallBack.cancle();
                 break;
         }
     }
+
     /*
     获取输入框密码
     return string
      */
-    public String getPassword(){
+    public String getPassword() {
         return mInterET.getText().toString();
     }
 
     /*
     回调方法
      */
-    public void setMyCallBack(MyCallBack myCallBack){
-        this.myCallBack=myCallBack;
+    public void setCallBack(MyCallBack myCallBack) {
+        this.myCallBack = myCallBack;
     }
+
+    public interface MyCallBack {
+        void confirm();
+
+        void cancle();
+    }
+}
 
     /*
     回调接口
      */
-    public interface MyCallBack{
-        void ok();
-        void cancel();
-    }
 
-}
